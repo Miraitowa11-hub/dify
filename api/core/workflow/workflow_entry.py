@@ -45,6 +45,10 @@ logger = logging.getLogger(__name__)
 _file_access_controller = DatabaseFileAccessController()
 
 
+def _build_free_node_workflow_id(node_id: str) -> str:
+    return f"free-node:{node_id}"
+
+
 class _WorkflowChildEngineBuilder:
     @staticmethod
     def _has_node_id(graph_config: Mapping[str, Any], node_id: str) -> bool | None:
@@ -420,6 +424,7 @@ class WorkflowEntry:
         node_cls = resolve_workflow_node_class(node_type=node_type, node_version="1")
         if not node_cls:
             raise ValueError(f"Node class not found for node type {node_type}")
+        workflow_id = _build_free_node_workflow_id(node_id)
 
         # init variable pool
         variable_pool = VariablePool()
@@ -427,7 +432,7 @@ class WorkflowEntry:
 
         # init graph init params and runtime state
         graph_init_params = GraphInitParams(
-            workflow_id="",
+            workflow_id=workflow_id,
             graph_config=graph_dict,
             run_context=build_dify_run_context(
                 tenant_id=tenant_id,
@@ -441,6 +446,7 @@ class WorkflowEntry:
         graph_runtime_state = create_graph_runtime_state(
             variable_pool=variable_pool,
             start_at=time.perf_counter(),
+            workflow_id=workflow_id,
             execution_context=capture_current_context(),
         )
 
