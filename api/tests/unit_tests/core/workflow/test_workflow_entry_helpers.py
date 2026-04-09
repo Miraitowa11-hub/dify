@@ -661,9 +661,7 @@ class TestWorkflowEntryHelpers:
             patch.object(
                 workflow_entry, "GraphInitParams", return_value=sentinel.graph_init_params
             ) as graph_init_params,
-            patch.object(
-                workflow_entry, "create_graph_runtime_state", return_value=sentinel.graph_runtime_state
-            ),
+            patch.object(workflow_entry, "create_graph_runtime_state", return_value=sentinel.graph_runtime_state),
             patch.object(
                 workflow_entry, "build_dify_run_context", return_value={"_dify": "context"}
             ) as build_dify_run_context,
