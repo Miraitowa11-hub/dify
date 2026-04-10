@@ -199,6 +199,8 @@ const GenerationItem: FC<IGenerationItemProps> = ({
               !inSidePanel && 'rounded-2xl border-t border-divider-subtle bg-chat-bubble-bg',
             )}
             >
+              {/* 👇 这里我加了 false && 永久隐藏工作流 */}
+              {false && (
               <WorkflowBody
                 content={content}
                 currentTab={currentTab}
@@ -212,6 +214,7 @@ const GenerationItem: FC<IGenerationItemProps> = ({
                 taskId={taskId}
                 workflowProcessData={workflowProcessData}
               />
+              )}
               {!workflowProcessData && taskId && (
                 <div className={cn('system-2xs-medium-uppercase sticky left-0 top-0 flex w-full items-center rounded-t-2xl bg-components-actionbar-bg p-4 pb-3 text-text-accent-secondary', isError && 'text-text-destructive')}>
                   <RiPlayList2Line className="mr-1 h-3 w-3" />
